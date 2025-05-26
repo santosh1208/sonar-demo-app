@@ -8,11 +8,12 @@ import java.sql.Statement;
 
 public class VulnerableApp {
 
-    // SonarLint will flag this as a Hardcoded Credential (java:S2068)
+    
     private static final String DATABASE_PASSWORD = "MySecretPassword123!";
 
     public static void main(String[] args) {
-        String userId = "admin'; DROP TABLE users;--"; // Malicious input for demo
+        System.out.println("UserDao is running.");
+        String userId = "admin'; DROP TABLE users;--"; 
         fetchUser(userId);
     }
 
@@ -23,7 +24,7 @@ public class VulnerableApp {
 
         try {
             // Establish a dummy connection (no actual DB needed for SonarLint to flag)
-            conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", DATABASE_PASSWORD); // Using the hardcoded password
+            conn = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", DATABASE_PASSWORD); 
 
             // SonarLint will flag this as a SQL Injection (java:S5147)
             String sqlQuery = "SELECT * FROM users WHERE id = '" + userId + "'";
